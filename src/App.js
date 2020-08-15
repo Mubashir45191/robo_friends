@@ -1,23 +1,35 @@
 import React from "react";
 import CardList from "./CardList";
-import SearchBox from './SearchBox'
+import SearchBox from "./SearchBox";
 import { robots } from "./robots";
 
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      robots: robots,
+      searchField: "",
+    };
+  }
+  onSearchChange=(event)=> {
+    this.setState({searchField:event.target.value})
+  }
+    
+    
 
-const state ={
-robots:robots,
-searchField:''
-
+  render() {
+    const filteredRobots = this.state.robots.filter((robot) => {
+      return robot.name.toLowerCase().includes(this.state.searchField.toLowerCase());
+    });
+   
+    return (
+      <div className="tc">
+        <h1>Robo Friends</h1>
+        <SearchBox searchChange={this.onSearchChange} />
+        <CardList robots={filteredRobots} />
+      </div>
+    );
+  }
 }
-
-class  App extends React.Component  {
-  return (
-    <div className="tc">
-      <h1>Robo Friends</h1>
-      <SearchBox />
-      <CardList robots={robots} />
-    </div>
-  );
-};
 
 export default App;
