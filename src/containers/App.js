@@ -4,6 +4,7 @@ import SearchBox from "../components/SearchBox";
 // import { robots } from "./robots";
 import "./App.css";
 import Scroll from '../components/Scroll';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 class App extends React.Component {
   constructor() {
@@ -37,20 +38,21 @@ class App extends React.Component {
                  .toLowerCase()
                  .includes(this.state.searchField.toLowerCase());
              });
-             return !this.state.robots.length ?
-                <h1>Loading...</h1>:
-        
+             return !this.state.robots.length ? (
+              <h1>Loading...</h1>  
+             ) : (
                // console.log('render');
 
-                (
-                 <div className="tc">
-                   <h1 className="f1">Robo Friends</h1>
-                   <SearchBox searchChange={this.onSearchChange} />
-                   <Scroll>
+               <div className="tc">
+                 <h1 className="f1">Robo Friends</h1>
+                 <SearchBox searchChange={this.onSearchChange} />
+                 <Scroll>
+                   <ErrorBoundary>
                      <CardList robots={filteredRobots} />
-                   </Scroll>
-                 </div>
-               );
+                   </ErrorBoundary>
+                 </Scroll>
+               </div>
+             );
             
            }
 }
